@@ -1,45 +1,22 @@
 import LogoKenzieHub from "../../assets/LogoKenzieHub.svg"
 import style from "../RegisterPage/style.module.scss"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { SelectRegister } from "../../components/SelectRegister"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { formSchema } from "./formSchema"
-import { api } from "../../services/api"
 import { Input } from "../../components/Input"
-import { toast } from "react-toastify"
+import { TodoContext } from "../../providers"
+import { useContext } from "react"
 
 export const RegisterPage = () => {
-    const navigate = useNavigate()
 
-    const userRegister = async (formData) => {
-        try {
-            const { data } = await api.post("/users", formData)
-            toast.success("Conta criada com sucesso!")
-            navigate("/")
-        } catch (error) {
-            if (error.response?.data) {
-                toast.warn("Ops! Algo deu errado")
-            }
-            toast.error(error)
-        }
-    }
+    const { submitRegister, options } = useContext(TodoContext)
 
-    const { register, handleSubmit, error, formState: { errors } } = useForm({
+
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(formSchema)
     })
-
-    const submit = (formData) => {
-        userRegister(formData)
-    }
-
-    const options = [
-        { value: "", label: "-- Selecione um Módulo --" },
-        { value: "primeroModulo", label: "Primeiro módulo (Introdução ao Frontend)" },
-        { value: "segundoModulo", label: "Segundo módulo (Frontend Avançado)" },
-        { value: "terceiroModulo", label: "Terceiro módulo (Introdução ao Backend)" },
-        { value: "quartoModulo", label: "Quarto módulo (Backend Avançado)" }
-    ]
 
     return (
         <>
@@ -55,7 +32,7 @@ export const RegisterPage = () => {
                 <section className={`${style.sectionContainer}`}>
                     <form
                         className={`${style.formContainer}`}
-                        onSubmit={handleSubmit(submit)}
+                        onSubmit={handleSubmit(submitRegister)}
                     >
                         <h1 className="title1 white">Crie sua conta</h1>
                         <p className="headline grey">Rápido e grátis, vamos nessa</p>

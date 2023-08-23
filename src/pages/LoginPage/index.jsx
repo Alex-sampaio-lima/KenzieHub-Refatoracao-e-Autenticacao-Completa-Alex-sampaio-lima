@@ -1,33 +1,21 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Input } from "../../components/Input"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { api } from "../../services/api"
 import { loginShema } from "./loginSchema"
-import { toast } from "react-toastify"
 import LogoKenzieHub from "../../assets/LogoKenzieHub.svg"
 import style from "./style.module.scss"
+import { useContext } from "react"
+import { TodoContext } from "../../providers"
 
 export const LoginPage = () => {
-    const navigate = useNavigate()
+
+    const { submitLogin } = useContext(TodoContext)
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(loginShema)
     })
-
-    const userLogin = async (formData) => {
-        try {
-            const { data } = await api.post("/sessions", formData)
-            toast.success("Login realizado com sucesso!")
-            navigate("/dashboard")
-        } catch (error) {
-            toast.error("Erro ao realizar login !")
-        }
-    }
-
-    const submit = (formData) => {
-        userLogin(formData)
-    }
 
     return (
         <main>
@@ -35,7 +23,7 @@ export const LoginPage = () => {
                 <div>
                     <img src={LogoKenzieHub} alt="Logo da Kenzie Hub" />
                 </div>
-                <form className={`${style.formContainer}`} onSubmit={handleSubmit(submit)}>
+                <form className={`${style.formContainer}`} onSubmit={handleSubmit(submitLogin)}>
                     <h1 className="title1 white">Login</h1>
                     <Input
                         label="Email"
