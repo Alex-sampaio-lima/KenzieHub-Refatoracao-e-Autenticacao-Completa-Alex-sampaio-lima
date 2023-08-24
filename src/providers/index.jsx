@@ -1,4 +1,4 @@
-import { createContext } from "react"
+import { createContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { api } from "../services/api"
@@ -7,19 +7,24 @@ export const TodoContext = createContext({})
 
 export const TodoProvider = ({ children }) => {
 
+    const [user, setUser] = useState(null)
+
     const navigate = useNavigate()
 
     const userLogin = async (formData) => {
         try {
             const { data } = await api.post("/sessions", formData)
+            localStorage.setItem("@TOKEN", data.token)
+            localStorage.setItem("@USERID", data.user.id)
             toast.success("Login realizado com sucesso!")
+            setUser(data.user)
             navigate("/dashboard")
         } catch (error) {
             console.error(error)
             toast.error("Erro ao realizar login !")
         }
     }
-    
+
     const submitLogin = (formData) => {
         userLogin(formData)
     }
@@ -41,6 +46,13 @@ export const TodoProvider = ({ children }) => {
         userRegister(formData)
     }
 
+    const userLogout = () => {
+        localStorage.removeItem("@TOKEN")
+        localStorage.removeItem("@USERID")
+        setUser(null)
+        navigate("/")
+    }
+
     const options = [
         { value: "", label: "-- Selecione um Módulo --" },
         { value: "primeroModulo", label: "Primeiro módulo (Introdução ao Frontend)" },
@@ -50,7 +62,7 @@ export const TodoProvider = ({ children }) => {
     ]
 
     return (
-        <TodoContext.Provider value={{ submitLogin, submitRegister, options }}>
+        <TodoContext.Provider value={{ user, submitLogin, userLogin, submitRegister, options, userLogout }}>
             {children}
         </TodoContext.Provider>
     )

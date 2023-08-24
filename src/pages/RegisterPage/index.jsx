@@ -6,17 +6,28 @@ import { SelectRegister } from "../../components/SelectRegister"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { formSchema } from "./formSchema"
 import { Input } from "../../components/Input"
-import { TodoContext } from "../../providers"
 import { useContext } from "react"
+import { TodoContext } from "../../providers"
 
 export const RegisterPage = () => {
 
-    const { submitRegister, options } = useContext(TodoContext)
-
+    const { userRegister } = useContext(TodoContext)
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(formSchema)
     })
+
+    const submit = (formData) => {
+        userRegister(formData)
+    }
+
+    const options = [
+        { value: "", label: "-- Selecione um Módulo --" },
+        { value: "primeroModulo", label: "Primeiro módulo (Introdução ao Frontend)" },
+        { value: "segundoModulo", label: "Segundo módulo (Frontend Avançado)" },
+        { value: "terceiroModulo", label: "Terceiro módulo (Introdução ao Backend)" },
+        { value: "quartoModulo", label: "Quarto módulo (Backend Avançado)" }
+    ]
 
     return (
         <>
@@ -32,7 +43,7 @@ export const RegisterPage = () => {
                 <section className={`${style.sectionContainer}`}>
                     <form
                         className={`${style.formContainer}`}
-                        onSubmit={handleSubmit(submitRegister)}
+                        onSubmit={handleSubmit(submit)}
                     >
                         <h1 className="title1 white">Crie sua conta</h1>
                         <p className="headline grey">Rápido e grátis, vamos nessa</p>
@@ -59,7 +70,7 @@ export const RegisterPage = () => {
                         />
                         <Input
                             label="Confirme sua senha"
-                            type="newPassword"
+                            type="password"
                             placeholder="Confirme sua senha"
                             {...register("newPassword")}
                             error={errors.newPassword}

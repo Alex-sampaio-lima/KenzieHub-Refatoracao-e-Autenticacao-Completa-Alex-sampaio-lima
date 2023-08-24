@@ -2,7 +2,6 @@ import { Link } from "react-router-dom"
 import { Input } from "../../components/Input"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { api } from "../../services/api"
 import { loginShema } from "./loginSchema"
 import LogoKenzieHub from "../../assets/LogoKenzieHub.svg"
 import style from "./style.module.scss"
@@ -11,11 +10,15 @@ import { TodoContext } from "../../providers"
 
 export const LoginPage = () => {
 
-    const { submitLogin } = useContext(TodoContext)
+    const { userLogin } = useContext(TodoContext)
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(loginShema)
     })
+
+    const submit = (formData) => {
+        userLogin(formData)
+    }
 
     return (
         <main>
@@ -23,7 +26,7 @@ export const LoginPage = () => {
                 <div>
                     <img src={LogoKenzieHub} alt="Logo da Kenzie Hub" />
                 </div>
-                <form className={`${style.formContainer}`} onSubmit={handleSubmit(submitLogin)}>
+                <form className={`${style.formContainer}`} onSubmit={handleSubmit(submit)}>
                     <h1 className="title1 white">Login</h1>
                     <Input
                         label="Email"
