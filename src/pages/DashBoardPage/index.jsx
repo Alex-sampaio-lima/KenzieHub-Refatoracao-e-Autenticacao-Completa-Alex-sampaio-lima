@@ -15,7 +15,7 @@ export const DashBoardPage = () => {
             </div>
             <hr className="" />
             <div className={`${style.messageContainer}`}>
-                <h1 className="title1 white">Olá, {user?.name}</h1>
+                <h1 className="title1 white">Olá, {user?.name}  </h1>
                 <p className="headline grey">Primeiro módulo  (Introdução ao Frontend)</p>
             </div>
             <hr />

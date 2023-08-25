@@ -19,7 +19,7 @@ export const TodoProvider = ({ children }) => {
             navigate("/")
         } catch (error) {
             if (error.response?.data) {
-                toast.warn("Ops! Algo deu errado")
+                toast.error("Ops! Algo deu errado")
             }
             toast.error(error)
         }
@@ -30,6 +30,7 @@ export const TodoProvider = ({ children }) => {
             const { data } = await api.post("/sessions", formData)
             localStorage.setItem("@TOKEN", data.token)
             localStorage.setItem("@USERID", data.user.id)
+            localStorage.setItem("@NAMEUSER", data.user.name)
             toast.success("Login realizado com sucesso!")
             setUser(data.user)
             navigate("/dashboard")
@@ -42,6 +43,7 @@ export const TodoProvider = ({ children }) => {
     const userLogout = () => {
         localStorage.removeItem("@TOKEN")
         localStorage.removeItem("@USERID")
+        localStorage.removeItem("@NAMEUSER")
         setUser(null)
         navigate("/")
     }
