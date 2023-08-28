@@ -7,11 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { formSchema } from "./formSchema"
 import { Input } from "../../components/Input"
 import { useContext } from "react"
-import { TodoContext } from "../../providers"
+import { userContext } from "../../providers"
 
 export const RegisterPage = () => {
 
-    const { userRegister } = useContext(TodoContext)
+    const { userRegister } = useContext(userContext)
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(formSchema)

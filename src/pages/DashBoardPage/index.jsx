@@ -1,11 +1,11 @@
 import LogoKenzieHub from "../../assets/LogoKenzieHub.svg"
 import style from "./style.module.scss"
-import { TodoContext } from "../../providers"
+import { userContext } from "../../providers"
 import { useContext } from "react"
 
 export const DashBoardPage = () => {
 
-    const { userLogout, user } = useContext(TodoContext)
+    const { userLogout, user } = useContext(userContext)
 
     return (
         <main className={`${style.containerMain}`}>

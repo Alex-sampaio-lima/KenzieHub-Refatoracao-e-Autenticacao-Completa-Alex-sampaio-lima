@@ -6,11 +6,11 @@ import { loginShema } from "./loginSchema"
 import LogoKenzieHub from "../../assets/LogoKenzieHub.svg"
 import style from "./style.module.scss"
 import { useContext } from "react"
-import { TodoContext } from "../../providers"
+import { userContext } from "../../providers"
 
 export const LoginPage = () => {
 
-    const { userLogin } = useContext(TodoContext)
+    const { userLogin } = useContext(userContext)
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(loginShema)

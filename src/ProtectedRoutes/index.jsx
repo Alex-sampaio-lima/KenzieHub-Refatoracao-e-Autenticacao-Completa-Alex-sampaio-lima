@@ -1,10 +1,10 @@
 import { useContext } from "react"
-import { TodoContext } from "../providers"
+import { userContext } from "../providers"
 import { Navigate, Outlet } from "react-router-dom"
 
 
 export const ProtectedRoutes = () => {
-    const { user } = useContext(TodoContext)
+    const { user } = useContext(userContext)
 
     return user ? <Outlet /> : <Navigate to="/" />
 }

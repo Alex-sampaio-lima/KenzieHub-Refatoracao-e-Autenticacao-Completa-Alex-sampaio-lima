@@ -4,7 +4,7 @@ import { api } from "../services/api"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 
-export const TodoContext = createContext({})
+export const userContext = createContext({})
 
 export const TodoProvider = ({ children }) => {
 
@@ -71,10 +71,9 @@ export const TodoProvider = ({ children }) => {
         setUser(null)
         navigate("/")
     }
-    console.log(user)
     return (
-        <TodoContext.Provider value={{ user, userLogin, userRegister, userLogout }}>
+        <userContext.Provider value={{ user, userLogin, userRegister, userLogout }}>
             {children}
-        </TodoContext.Provider>
+        </userContext.Provider>
     )
 }
