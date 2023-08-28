@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { createContext } from "react"
 import { api } from "../services/api"
 import { toast } from "react-toastify"
@@ -11,6 +11,30 @@ export const TodoProvider = ({ children }) => {
     const [user, setUser] = useState(null)
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const loadUser = async () => {
+            const token = localStorage.getItem("@TOKEN")
+            if (token) {
+                try {
+                    const { data } = await api.get("/profile", {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    setUser(data)
+                    navigate("/dashboard")
+                } catch (error) {
+                    console.error(error)
+                    localStorage.removeItem("@TOKEN")
+                    localStorage.removeItem("@USERID")
+                    localStorage.removeItem("@NAMEUSER")
+                    navigate("/")
+                }
+            }
+        }
+        loadUser()
+    }, [])
 
     const userRegister = async (formData) => {
         try {
@@ -47,7 +71,7 @@ export const TodoProvider = ({ children }) => {
         setUser(null)
         navigate("/")
     }
-
+    console.log(user)
     return (
         <TodoContext.Provider value={{ user, userLogin, userRegister, userLogout }}>
             {children}
