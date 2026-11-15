@@ -4,6 +4,7 @@ import { api } from "../services/api"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const userContext = createContext({})
 
 export const TodoProvider = ({ children }) => {
@@ -34,18 +35,18 @@ export const TodoProvider = ({ children }) => {
             }
         }
         loadUser()
+        // roda só na montagem: o navigate muda a cada troca de rota e recarregaria o perfil
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const userRegister = async (formData) => {
         try {
-            const { data } = await api.post("/users", formData)
+            await api.post("/users", formData)
             toast.success("Conta criada com sucesso!")
             navigate("/")
         } catch (error) {
-            if (error.response?.data) {
-                toast.error("Ops! Algo deu errado")
-            }
-            toast.error(error)
+            console.error(error)
+            toast.error("Ops! Algo deu errado")
         }
     }
 
