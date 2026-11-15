@@ -1,18 +1,116 @@
 :root {
-    --font-primary: 'Inter', sans-serif;
+    color-scheme: dark;
 
+    --font-primary: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    /* Paleta original do projeto */
     --color-primary: #FF577F;
     --color-primary-focus: #FF427F;
-    --color-primary-Negative: #59323F;
+    --color-primary-negative: #59323F;
     --grey-0: #F8F9FA;
     --grey-1: #868E96;
     --grey-2: #343B41;
     --grey-3: #212529;
     --grey-4: #121214;
-    --sucess: #3FE864;
-    --Negative: #E83F5B;
+    --success: #3FE864;
+    --negative: #E83F5B;
 
-    body {
-        background-color: var(--grey-4);
+    /* Variações derivadas da paleta */
+    --color-primary-soft: rgba(255, 87, 127, 0.14);
+    --color-primary-ring: rgba(255, 87, 127, 0.28);
+    --color-negative-text: #FF7A8F;
+    --color-border: rgba(248, 249, 250, 0.08);
+    --color-border-strong: rgba(248, 249, 250, 0.16);
+    --color-field: rgba(18, 18, 20, 0.5);
+    --color-field-border: #3D454C;
+    --color-field-border-hover: #59626B;
+
+    --radius-sm: 0.625rem;
+    --radius-md: 1rem;
+    --radius-full: 999px;
+
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    --toastify-color-dark: #2A2F35;
+    --toastify-color-success: var(--success);
+    --toastify-color-error: var(--negative);
+    --toastify-font-family: var(--font-primary);
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--grey-0);
+    background-color: var(--grey-4);
+
+    // brilho rosa discreto, fixo atrás do conteúdo
+    &::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background:
+            radial-gradient(48rem 32rem at 100% 0%, rgba(255, 87, 127, 0.12), transparent 70%),
+            radial-gradient(40rem 28rem at 0% 100%, rgba(255, 87, 127, 0.07), transparent 70%);
+    }
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+::selection {
+    color: var(--grey-0);
+    background: var(--color-primary-ring);
+}
+
+.card {
+    background: var(--grey-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+}
+
+.Toastify__toast {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.9375rem;
+    font-weight: 500;
+}
+
+// no celular o Toastify cola o aviso nas bordas da tela; aqui ele fica flutuando
+@media (max-width: 480px) {
+    .Toastify__toast-container {
+        padding: 0.75rem;
+    }
+
+    .Toastify__toast {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* A barra de progresso do Toastify controla o tempo de fechamento do toast,
+   então não pode ser encurtada, senão o aviso some na hora. */
+@media (prefers-reduced-motion: reduce) {
+
+    *:not(.Toastify__progress-bar),
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
     }
 }

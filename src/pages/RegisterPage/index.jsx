@@ -1,58 +1,46 @@
 import LogoKenzieHub from "../../assets/LogoKenzieHub.svg"
-import style from "../RegisterPage/style.module.scss"
+import style from "./style.module.scss"
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { SelectRegister } from "../../components/SelectRegister"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { formSchema } from "./formSchema"
 import { Input } from "../../components/Input"
+import { AuthCard } from "../../components/AuthCard"
 import { useContext } from "react"
 import { userContext } from "../../providers"
+import { courseModules } from "../../utils/courseModules"
+
+const options = [{ value: "", label: "Selecione um módulo" }, ...courseModules]
 
 export const RegisterPage = () => {
 
     const { userRegister } = useContext(userContext)
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(formSchema)
     })
 
-    const submit = (formData) => {
-        userRegister(formData)
+    const submit = async (formData) => {
+        await userRegister(formData)
     }
 
-    const options = [
-        { value: "", label: "-- Selecione um Módulo --" },
-        { value: "primeroModulo", label: "Primeiro módulo (Introdução ao Frontend)" },
-        { value: "segundoModulo", label: "Segundo módulo (Frontend Avançado)" },
-        { value: "terceiroModulo", label: "Terceiro módulo (Introdução ao Backend)" },
-        { value: "quartoModulo", label: "Quarto módulo (Backend Avançado)" }
-    ]
-
     return (
-        <>
-            <header className={`${style.headerContainer}`}>
-                <div className={`${style.containerTitle}`}>
-                    <img src={LogoKenzieHub} alt="Logo do Kenzie Hub" />
-                    <Link to="/">
-                        <button className="btn-secondary back headline secondary" type="button">Voltar</button>
-                    </Link>
-                </div>
+        <div className={style.page}>
+            <header className={style.topbar}>
+                <img className={style.logo} src={LogoKenzieHub} alt="Kenzie Hub" />
+                <Link className="btn btn-secondary btn-sm" to="/">Voltar</Link>
             </header>
-            <main>
-                <section className={`${style.sectionContainer}`}>
-                    <form
-                        className={`${style.formContainer}`}
-                        onSubmit={handleSubmit(submit)}
-                    >
-                        <h1 className="title1 white">Crie sua conta</h1>
-                        <p className="headline grey">Rápido e grátis, vamos nessa</p>
+            <main className={style.main}>
+                <AuthCard title="Crie sua conta" subtitle="Rápido e grátis, vamos nessa">
+                    <form className={style.form} onSubmit={handleSubmit(submit)} noValidate>
                         <Input
-                            label="Seu nome"
+                            label="Nome"
                             type="text"
-                            placeholder="Digite seu nome"
+                            placeholder="Digite aqui seu nome"
                             {...register("name")}
                             error={errors.name}
+                            autoComplete="name"
                         />
                         <Input
                             label="Email"
@@ -60,6 +48,7 @@ export const RegisterPage = () => {
                             placeholder="Digite aqui seu email"
                             {...register("email")}
                             error={errors.email}
+                            autoComplete="email"
                         />
                         <Input
                             label="Senha"
@@ -67,13 +56,15 @@ export const RegisterPage = () => {
                             placeholder="Digite aqui sua senha"
                             {...register("password")}
                             error={errors.password}
+                            autoComplete="new-password"
                         />
                         <Input
-                            label="Confirme sua senha"
+                            label="Confirmar senha"
                             type="password"
-                            placeholder="Confirme sua senha"
+                            placeholder="Digite novamente sua senha"
                             {...register("newPassword")}
                             error={errors.newPassword}
+                            autoComplete="new-password"
                         />
                         <Input
                             label="Bio"
@@ -90,20 +81,20 @@ export const RegisterPage = () => {
                             error={errors.contact}
                         />
                         <SelectRegister
+                            label="Selecionar módulo"
                             options={options}
-                            name="option"
                             {...register("course_module")}
                             error={errors.course_module}
                         />
-                        <Link className="title2 white" to="/">
-                            Já tenho uma conta
-                        </Link>
-                        <button className="paragraph white btn-negative" type="submit">
-                            Cadastrar
+                        <button className="btn btn-primary btn-block" type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? "Cadastrando..." : "Cadastrar"}
                         </button>
                     </form>
-                </section>
+                    <p className={`headline grey ${style.footer}`}>
+                        Já tem uma conta? <Link to="/">Entrar</Link>
+                    </p>
+                </AuthCard>
             </main>
-        </>
+        </div>
     )
 }

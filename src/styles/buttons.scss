@@ -1,124 +1,65 @@
-.btn-primary {
-    display: flex;
-    height: 48px;
-    width: 329.9296px;
-    max-width: 100%;
-    padding: 0px 22.334px;
+.btn {
+    display: inline-flex;
     justify-content: center;
     align-items: center;
-    gap: 10.152px;
-    border-radius: 4px;
-    border: 1.218px solid var(--grey-4);
+    gap: 0.5rem;
+    height: 3rem;
+    padding: 0 1.25rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease),
+        box-shadow 0.2s var(--ease), transform 0.1s var(--ease);
+
+    &:active:not(:disabled) {
+        transform: scale(0.98);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+// texto escuro sobre o rosa: o branco original não atinge contraste AA
+.btn-primary {
+    color: var(--grey-4);
     background: var(--color-primary);
 
-    &:hover {
-        background-color: var(--color-primary-focus);
+    // só com mouse: no toque o :hover fica "preso" depois do clique
+    @media (hover: hover) {
+        &:hover:not(:disabled) {
+            background: var(--color-primary-focus);
+            box-shadow: 0 8px 24px -8px rgba(255, 87, 127, 0.6);
+        }
+    }
+
+    &:disabled {
+        color: var(--grey-1);
+        background: var(--color-primary-negative);
     }
 }
 
 .btn-secondary {
-    display: inline-flex;
-    height: 48px;
-    width: 329.9296px;
-    max-width: 100%;
-    padding: 0px 22.334px;
-    justify-content: center;
-    align-items: center;
-    gap: 10.152px;
-    border-radius: 4px;
-    border: 1.218px solid var(--grey-4);
-    background: var(--grey-1);
+    color: var(--grey-0);
+    background: rgba(248, 249, 250, 0.06);
+    border-color: var(--color-border-strong);
 
-    &.black {
-        background-color: var(--grey-3);
-    }
-
-    &.back {
-        background-color: var(--grey-3);
-        width: 80px;
-        height: 40px;
-    }
-
-    &:hover {
-        background: var(--grey-2);
-
-    }
-}
-
-.btn-negative {
-    display: inline-flex;
-    height: 48px;
-    width: 329.929px;
-    max-width: 100%;
-    padding: 0px 22.334px;
-    justify-content: center;
-    align-items: center;
-    gap: 10.152px;
-    border-radius: 4px;
-    border: 1.218px solid var(--color-primary-disable, #59323F);
-    background: var(--color-primary-disable, #59323F);
-}
-
-.labelRegister {
-    color: var(--grey-2);
-    font-family: var(--font-family);
-    font-size: 12.182px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 0px;
-}
-
-.inputRegister {
-    display: flex;
-    align-items: center;
-    width: 329.9296px;
-    height: 48px;
-    max-width: 100%;
-    padding: 0px 16.2432px;
-    gap: 10.152px;
-    border-radius: 4px;
-    border: 1.218px solid var(--grey-2);
-    background: var(--grey-2);
-
-    &.inputRegister:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0 30px var(--grey-2) inset;
-    }
-
-    &.inputRegister[type=number]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-    }
-
-    &.inputRegister[type=number] {
-        -moz-appearance: textfield;
-        appearance: textfield;
-    }
-}
-
-
-@media (max-width: 768px) {
-    .inputRegister {
-        display: flex;
-        align-items: center;
-        width: 256.9296px;
-        height: 48px;
-        max-width: 100%;
-        padding: 0px 16.2432px;
-        gap: 10.152px;
-        border-radius: 4px;
-        border: 1.218px solid var(--grey-2);
-        background: var(--grey-2);
-
-        &.inputRegister:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0 30px var(--grey-2) inset;
-        }
-
-        &.inputRegister[type=number]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-        }
-
-        &.inputRegister[type=number] {
-            -moz-appearance: textfield;
-            appearance: textfield;
+    @media (hover: hover) {
+        &:hover:not(:disabled) {
+            background: rgba(248, 249, 250, 0.12);
+            border-color: rgba(248, 249, 250, 0.24);
         }
     }
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-sm {
+    height: 2.5rem;
+    padding: 0 1rem;
+    font-size: 0.875rem;
 }

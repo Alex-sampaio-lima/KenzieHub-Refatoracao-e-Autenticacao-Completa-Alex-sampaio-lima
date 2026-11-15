@@ -1,0 +1,23 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.code {
+    font-size: clamp(5rem, 24vw, 9rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-primary);
+}
+
+.back {
+    margin-top: 1.5rem;
+}

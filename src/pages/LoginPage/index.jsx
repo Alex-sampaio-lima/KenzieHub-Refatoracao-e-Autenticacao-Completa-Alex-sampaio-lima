@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { Input } from "../../components/Input"
+import { AuthCard } from "../../components/AuthCard"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginShema } from "./loginSchema"
@@ -12,29 +13,26 @@ export const LoginPage = () => {
 
     const { userLogin } = useContext(userContext)
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(loginShema)
     })
 
-    const submit = (formData) => {
-        userLogin(formData)
+    const submit = async (formData) => {
+        await userLogin(formData)
     }
 
     return (
-        <main>
-            <section className={`${style.sectionForm}`}>
-                <div>
-                    <img src={LogoKenzieHub} alt="Logo da Kenzie Hub" />
-                </div>
-                <form className={`${style.formContainer}`} onSubmit={handleSubmit(submit)}>
-                    <h1 className="title1 white">Login</h1>
+        <main className={style.page}>
+            <img className={style.logo} src={LogoKenzieHub} alt="Kenzie Hub" />
+            <AuthCard title="Login" subtitle="Acesse sua conta para continuar">
+                <form className={style.form} onSubmit={handleSubmit(submit)} noValidate>
                     <Input
                         label="Email"
-                        type="text"
+                        type="email"
                         placeholder="Digite seu email"
                         {...register("email")}
                         error={errors.email}
-                        autoComplete="password"
+                        autoComplete="email"
                     />
                     <Input
                         label="Senha"
@@ -42,13 +40,17 @@ export const LoginPage = () => {
                         placeholder="Digite sua senha"
                         {...register("password")}
                         error={errors.password}
-                        autoComplete="password"
+                        autoComplete="current-password"
                     />
-                    <button className="btn-primary paragraph white" type="submit">Entrar</button>
-                    <Link className="headline white" to="/register">Ainda não possui uma conta</Link>
-                    <Link className="btn-secondary paragraph white" to="/register">Cadastrar-se</Link>
+                    <button className="btn btn-primary btn-block" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Entrando..." : "Entrar"}
+                    </button>
                 </form>
-            </section>
+                <div className={style.footer}>
+                    <p className="headline grey">Ainda não possui uma conta?</p>
+                    <Link className="btn btn-secondary btn-block" to="/register">Cadastre-se</Link>
+                </div>
+            </AuthCard>
         </main>
     )
 }

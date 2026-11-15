@@ -1,9 +1,11 @@
-.margin {
+.container {
+    width: 100%;
+    max-width: 66rem;
     margin: 0 auto;
-}
+    // só as laterais: o padding vertical fica por conta de quem usa o container
+    padding-inline: 1rem;
 
-.marginInputBottom {
-    display: flex;
-    margin-bottom: 1rem;
-
+    @media (min-width: 48rem) {
+        padding-inline: 1.5rem;
+    }
 }
